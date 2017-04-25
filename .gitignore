@@ -60,6 +60,10 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+# DB stuff:
+*.db
+db_repository/
+
 # Sphinx documentation
 docs/_build/
 
