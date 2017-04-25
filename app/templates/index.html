@@ -1,0 +1,10 @@
+<!-- extends base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hello, {{ user.name }}!</h1>
+    {% include 'flash.html' %}
+    <div class="well">
+    </div>
+{% endblock %}
+

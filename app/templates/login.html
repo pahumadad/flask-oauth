@@ -1,0 +1,10 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div id="sign-in">
+    <h1>Sign In</h1>
+    <p><a href="{{ url_for('oauth_authorize', provider='google') }}">Sign In with Google</a></p>
+    <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}">Sign In with Facebook</a></p>
+</div>
+{% endblock %}
