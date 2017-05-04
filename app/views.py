@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from .models import User
 from .oauth import OAuthSignIn
+from .forms import EditForm
 
 @app.route('/')
 @app.route('/index')
@@ -67,3 +68,39 @@ def load_user(id):
 @lm.unauthorized_handler
 def unauthorized():
     return redirect(url_for('login'))
+
+
+@app.route('/user/<nickname>')
+@login_required
+def user(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+    if user == None:
+        flash('User %s not found.' % nickname)
+        return redirect(url_for('index'))
+    return render_template('user.html',
+                            title="Profile",
+                            user=user)
+
+
+@app.route('/user/<nickname>/edit', methods=['GET', 'POST'])
+@login_required
+def edit(nickname):
+    if g.user.nickname != nickname:
+        flash('You can not edit someone else profile')
+        return redirect(url_for('user', nickname=g.user.nickname))
+    user = User.query.filter_by(nickname=nickname).first()
+    form = EditForm(user.nickname)
+    if form.validate_on_submit():
+        user.nickname = form.nickname.data
+        user.name     = form.name.data
+        db.session.add(user)
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('user', nickname=user.nickname))
+    else:
+        form.nickname.data = user.nickname
+        form.name.data     = user.name
+    return render_template('edit.html',
+                            title="Edit",
+                            user=user,
+                            form=form)

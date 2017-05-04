@@ -2,6 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # forms wtf config
+WTF_CSRF_ENABLED = True
 SECRET_KEY = 'impossible-to-guess'
 
 # sqlalchemy database config

@@ -1,0 +1,26 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Your Profile</h1>
+    <div class="well">
+        <h2>{{ user.nickname }}</h2>
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>:</td>
+                <td>{{ user.name }}</td>
+            </tr>
+                {% if user.id == g.user.id %}
+            <tr>
+                <td>Email</td>
+                <td>:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td><a href="{{ url_for('edit', nickname=user.nickname) }}">Edit your profile</a></td>
+            </tr>
+                {% endif %}
+        </table>
+    </div>
+{% endblock %}
